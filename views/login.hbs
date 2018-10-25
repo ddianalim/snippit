@@ -2,12 +2,15 @@
   <form action="/login" method="post">
     <h1>Log In</h1>
 
-    <div>
-      <input class="form" type="text" name="username" id="user-username" placeholder="username" required autocomplete="off">
+    <div class="group">
+      <input class="form" type="text" name="username" id="user-username" required autocomplete="off">
+      <label for="input" class="control-label">Username</label><i class="bar"></i>
     </div>
 
-    <div>
-      <input class="form" type="password" name="password" id="user-password" placeholder="password" required autocomplete="off">
+
+    <div class="group">
+      <input class="form" type="password" name="password" id="user-password" required autocomplete="off">
+      <label for="input" class="control-label">Password</label><i class="bar"></i>
     </div>
 
     <button type="submit">Log In</button><br></br>
@@ -15,3 +18,8 @@
   </form>
   <div class="login-box"></div>
 </div>
+<script>
+  $('.group input').blur((e) => {
+    e.target.value ? e.target.classList.add("has-value") : e.target.classList.remove("has-value");
+  });
+</script>

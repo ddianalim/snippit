@@ -2,16 +2,19 @@
   <div class="create-account page">
     <form action="/users" method="post">
       <h1>Create Account</h1>
-      <div>
-        <input class="form" type="text" required name="username" id="user-username" placeholder="Username" autocomplete="off">
+      <div class="group">
+        <input class="form" type="text" required name="username" id="user-username" autocomplete="off">
+        <label for="input" class="control-label">Username</label><i class="bar"></i>
       </div>
 
-      <div>
-        <input class="form" type="password" required name="password" id="user-password" placeholder="Password" autocomplete="off">
+      <div class="group">
+        <input class="form" type="password" required name="password" id="user-password" autocomplete="off">
+        <label for="input" class="control-label">Password</label><i class="bar"></i>
       </div>
 
-      <div>
-        <input class="form" type="password" required id="confirm_password" placeholder="Confirm Password" autocomplete="off">
+      <div class="group">
+        <input class="form" type="password" required id="confirm_password" autocomplete="off">
+        <label for="input" class="control-label">Confirm Password</label><i class="bar"></i>
       </div>
 
       <script>
@@ -27,6 +30,9 @@
         }
         password.onchange = validatePassword;
         confirm_password.onkeyup = validatePassword;
+        $('.group input').blur((e) => {
+            e.target.value ? e.target.classList.add("has-value") : e.target.classList.remove("has-value");
+        });
       </script>
 
       <button type="submit">Sign Up</button><br></br>

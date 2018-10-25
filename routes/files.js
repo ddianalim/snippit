@@ -20,6 +20,7 @@ router.post('/', auth.requireLogin, (req, res, next) => {
 
     let file = new File(req.body);
     file.folder = folder;
+    // file.type = 
 
     file.save(function(err, file) {
       if(err) { console.error(err) };
