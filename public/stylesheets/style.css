@@ -284,6 +284,10 @@ h2 {
   background: transparent !important;
 }
 
+.card-subtitle {
+  font-size: 0.9rem;
+}
+
 /* New Post */
 .new-post {
   width: 100%;

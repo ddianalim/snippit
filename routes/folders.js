@@ -33,7 +33,6 @@ router.get('/:id', auth.requireLogin, (req, res, next) => {
      });
   });
 });
-
 // Folders edit
 router.get('/:id/edit', auth.requireLogin, (req, res) => {
   Folder.findById(req.params.id, (err, folder) => {

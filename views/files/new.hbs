@@ -1,5 +1,5 @@
 <div class="page new-post text-center">
-  <form action="/folders/{{folder.id}}/files" method="post">
+  <form id="create-file" action="/folders/{{folder.id}}/files" method="post">
     <h1>New File</h1>
     <div class="group">
       <input class="form" type="text" required name="title" id="file-title" autocomplete="off">
@@ -34,23 +34,42 @@
   var editor = ace.edit("ace-editor");
   var modelist = ace.require("ace/ext/modelist");
   $('#language').change((e) => {
-    editor.session.setMode(`ace/mode/${$('#language').val().toLowerCase().replace('#', 'sharp').replace('c/c++', 'c_cpp')}`);
+    editor.session.setMode(`ace/mode/${getMode($('#language').val())}`);
   });
+  function getMode(str) {
+    return str.toLowerCase().replace('#', 'sharp').replace('c/c++', 'c_cpp');
+  }
   function update() {
     var shouldShow = !editor.session.getValue().length;
     var node = editor.renderer.emptyMessageNode;
     if (!shouldShow && node) {
-        editor.renderer.scroller.removeChild(editor.renderer.emptyMessageNode);
-        editor.renderer.emptyMessageNode = null;
-    } else if (shouldShow && !node) {
-        node = editor.renderer.emptyMessageNode = document.createElement("div");
-        node.textContent = "Paste or type code here"
-        node.className = "ace_invisible ace_emptyMessage"
-        node.style.padding = "0 9px"
-        editor.renderer.scroller.appendChild(node);
+      editor.renderer.scroller.removeChild(editor.renderer.emptyMessageNode);
+      editor.renderer.emptyMessageNode = null;
     }
-}
-editor.on("input", update);
-setTimeout(update, 1000);
+    else if (shouldShow && !node) {
+      node = editor.renderer.emptyMessageNode = document.createElement("div");
+      node.textContent = "Paste or type code here"
+      node.className = "ace_invisible ace_emptyMessage"
+      node.style.padding = "0 9px"
+      editor.renderer.scroller.appendChild(node);
+    }
+  }
+  editor.on("input", update);
+  setTimeout(update, 1000);
+  $('#create-file').submit((e) => {
+    $.ajax({
+      url: '/folders/{{folder.id}}/files',
+      type: 'post',
+      data: {
+        title: $('#file-title').val(),
+        description: $('#file-description').val(),
+        body: editor.getValue(),
+        type: document.getElementById('language').selectedIndex != 0 && getMode($('#language').val())
+      },
+      success: function() {
+        //whatever you wanna do after the form is successfully submitted
+      }
+    });
+  })
 </script>
 <a href="/folders/{{folder.id}}" class="back-btn"><button>⬅</button></a>

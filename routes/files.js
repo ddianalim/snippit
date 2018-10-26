@@ -8,7 +8,7 @@ const router = express.Router({ mergeParams: true });
 
 router.get('/new', auth.requireLogin, (req, res, next) => {
   Folder.findById(req.params.folderId, function(err, folder) {
-    if(err) { console.error(err) };
+    if (err) { console.error(err) };
 
     res.render('files/new', { folder: folder });
   });
@@ -16,14 +16,13 @@ router.get('/new', auth.requireLogin, (req, res, next) => {
 
 router.post('/', auth.requireLogin, (req, res, next) => {
   Folder.findById(req.params.folderId, function(err, folder) {
-    if(err) { console.error(err) };
-
+    if (err) console.error(err);
+    if (req.body.type == "false")
+      req.body.type = false;
     let file = new File(req.body);
     file.folder = folder;
-    // file.type = 
-
     file.save(function(err, file) {
-      if(err) { console.error(err) };
+      if (err) console.error(err);
       return res.redirect(`/folders/${folder._id}`);
     });
   });
@@ -34,7 +33,7 @@ router.post('/:id', auth.requireLogin, (req, res, next) => {
     file.points += parseInt(req.body.points);
 
     file.save(function(err, file) {
-      if(err) { console.error(err) };
+      if (err) { console.error(err) };
 
       return res.redirect(`/folders/${file.folders}`);
     });
@@ -43,10 +42,10 @@ router.post('/:id', auth.requireLogin, (req, res, next) => {
 
 router.get('/:id', auth.requireLogin, (req, res, next) => {
   Folder.findById(req.params.id, function(err, folder) {
-    if(err) { console.error(err) };
+    if (err) { console.error(err) };
 
     File.find({ folder: folder }, function(err, files) {
-      if(err) { console.error(err) };
+      if (err) { console.error(err) };
 
       res.render('folders/show', { folder: folder, files: files });
     });
